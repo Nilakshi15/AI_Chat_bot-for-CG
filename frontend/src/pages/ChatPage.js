@@ -118,6 +118,29 @@ export default function ChatPage() {
     handleSend(option);
   };
 
+  const handleMcqOptionToggle = (optionValue) => {
+    if (!pendingMcq) return;
+    
+    if (pendingMcq.type === 'single') {
+      setSelectedOptions([optionValue]);
+    } else {
+      // Multiple selection
+      if (selectedOptions.includes(optionValue)) {
+        setSelectedOptions(selectedOptions.filter(v => v !== optionValue));
+      } else {
+        setSelectedOptions([...selectedOptions, optionValue]);
+      }
+    }
+  };
+
+  const handleMcqSubmit = () => {
+    if (selectedOptions.length === 0) return;
+    
+    const answer = selectedOptions.join(', ');
+    setPendingMcq(null);
+    handleSend(answer);
+  };
+
   return (
     <div data-testid="chat-page" className="h-screen flex flex-col">
       {/* Header */}
