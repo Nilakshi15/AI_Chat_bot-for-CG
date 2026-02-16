@@ -292,9 +292,62 @@ async def send_chat_message(
         user_msg = UserMessage(text=chat_request.message)
         ai_response = await chat.send_message(user_msg)
         
+        # Decide if we should ask an MCQ question
+        mcq_question = None
+        message_count = len(history)
+        
+        # Ask MCQ questions at strategic points in conversation
+        if message_count == 0:  # First message - ask about interests
+            mcq_question = {
+                "question": "What areas interest you the most?",
+                "options": [
+                    "Technology & Software",
+                    "Creative Arts & Design",
+                    "Business & Finance",
+                    "Healthcare & Medicine",
+                    "Education & Teaching",
+                    "Engineering"
+                ],
+                "type": "multiple"
+            }
+        elif message_count == 2 and any(word in chat_request.message.lower() for word in ['tech', 'software', 'data', 'ai']):
+            mcq_question = {
+                "question": "What's your current experience level?",
+                "options": [
+                    "Complete Beginner",
+                    "Some Basic Knowledge",
+                    "Intermediate (1-2 years)",
+                    "Advanced (3+ years)"
+                ],
+                "type": "single"
+            }
+        elif message_count == 4 and 'roadmap' in chat_request.message.lower():
+            mcq_question = {
+                "question": "How much time can you dedicate to learning per week?",
+                "options": [
+                    "1-5 hours",
+                    "5-10 hours",
+                    "10-20 hours",
+                    "20+ hours (Full-time)"
+                ],
+                "type": "single"
+            }
+        elif any(word in chat_request.message.lower() for word in ['skill', 'learn']):
+            mcq_question = {
+                "question": "Which skills would you like to focus on?",
+                "options": [
+                    "Technical/Hard Skills",
+                    "Soft Skills (Communication, Leadership)",
+                    "Industry-Specific Knowledge",
+                    "Project Management",
+                    "All of the above"
+                ],
+                "type": "multiple"
+            }
+        
         # Extract suggested options from AI response if present
         suggested_options = []
-        if len(history) <= 2:  # First few messages, provide contextual suggestions
+        if len(history) <= 2 and not mcq_question:  # Only if not showing MCQ
             # Analyze user's question and provide relevant options
             message_lower = chat_request.message.lower()
             if any(word in message_lower for word in ['career', 'job', 'profession', 'what should i']):
@@ -326,6 +379,7 @@ async def send_chat_message(
         logger.error(f"AI chat error: {e}")
         ai_response = "I'm having trouble connecting right now. Please try again in a moment."
         suggested_options = []
+        mcq_question = None
     
     # Store AI response
     ai_message_id = f"msg_{uuid.uuid4().hex[:12]}"
