@@ -1,10 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+const QUICK_PROMPTS = [
+  "What career is best for me?",
+  "I'm interested in technology",
+  "Show me creative careers",
+  "How do I start in data science?",
+  "What skills should I learn?",
+  "Help me create a roadmap"
+];
 
 export default function ChatPage() {
   const { user } = useOutletContext();
@@ -12,6 +21,7 @@ export default function ChatPage() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState(null);
+  const [showQuickPrompts, setShowQuickPrompts] = useState(true);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
