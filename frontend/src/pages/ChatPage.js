@@ -22,6 +22,8 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState(null);
   const [showQuickPrompts, setShowQuickPrompts] = useState(true);
+  const [pendingMcq, setPendingMcq] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
