@@ -72,11 +72,19 @@ export default function ChatPage() {
       const data = await response.json();
       
       setConversationId(data.conversation_id);
-      setMessages(prev => [...prev, {
+      
+      const aiMessage = {
         role: "assistant",
         content: data.response,
         timestamp: new Date().toISOString()
-      }]);
+      };
+      
+      // Parse response for suggested options
+      if (data.suggested_options && data.suggested_options.length > 0) {
+        aiMessage.options = data.suggested_options;
+      }
+      
+      setMessages(prev => [...prev, aiMessage]);
 
     } catch (error) {
       console.error('Chat error:', error);
