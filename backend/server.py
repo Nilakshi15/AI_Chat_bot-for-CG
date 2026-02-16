@@ -67,6 +67,7 @@ class ChatResponse(BaseModel):
     response: str
     conversation_id: str
     message_id: str
+    suggested_options: Optional[List[str]] = None
 
 class CareerProfile(BaseModel):
     model_config = ConfigDict(extra="ignore")
