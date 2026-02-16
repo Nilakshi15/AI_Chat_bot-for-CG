@@ -62,7 +62,7 @@ export default function ChatPage() {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          message: inputValue,
+          message: textToSend,
           conversation_id: conversationId
         })
       });
