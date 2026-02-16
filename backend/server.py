@@ -131,6 +131,10 @@ async def get_current_user(request: Request, session_token: Optional[str] = Cook
     if not user_doc:
         raise HTTPException(status_code=404, detail="User not found")
     
+    # Convert datetime to string if needed
+    if isinstance(user_doc.get("created_at"), datetime):
+        user_doc["created_at"] = user_doc["created_at"].isoformat()
+    
     return User(**user_doc)
 
 # ==================== AUTH ROUTES ====================
