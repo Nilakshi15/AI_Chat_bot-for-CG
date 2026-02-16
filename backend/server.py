@@ -294,10 +294,10 @@ async def send_chat_message(
         
         # Decide if we should ask an MCQ question
         mcq_question = None
-        message_count = len(history)
+        user_message_count = len([m for m in history if m.get('role') == 'user'])
         
         # Ask MCQ questions at strategic points in conversation
-        if message_count == 0:  # First message - ask about interests
+        if user_message_count == 1:  # First user message - ask about interests
             mcq_question = {
                 "question": "What areas interest you the most?",
                 "options": [
@@ -310,7 +310,7 @@ async def send_chat_message(
                 ],
                 "type": "multiple"
             }
-        elif message_count == 2 and any(word in chat_request.message.lower() for word in ['tech', 'software', 'data', 'ai']):
+        elif user_message_count == 3 and any(word in chat_request.message.lower() for word in ['tech', 'software', 'data', 'ai', 'technology']):
             mcq_question = {
                 "question": "What's your current experience level?",
                 "options": [
@@ -321,7 +321,7 @@ async def send_chat_message(
                 ],
                 "type": "single"
             }
-        elif message_count == 4 and 'roadmap' in chat_request.message.lower():
+        elif user_message_count >= 5 and any(word in chat_request.message.lower() for word in ['roadmap', 'learn', 'study', 'path']):
             mcq_question = {
                 "question": "How much time can you dedicate to learning per week?",
                 "options": [
@@ -332,7 +332,7 @@ async def send_chat_message(
                 ],
                 "type": "single"
             }
-        elif any(word in chat_request.message.lower() for word in ['skill', 'learn']):
+        elif user_message_count == 2 and any(word in chat_request.message.lower() for word in ['skill', 'learn']):
             mcq_question = {
                 "question": "Which skills would you like to focus on?",
                 "options": [
