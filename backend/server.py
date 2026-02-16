@@ -63,11 +63,17 @@ class ChatRequest(BaseModel):
     message: str
     conversation_id: Optional[str] = None
 
+class McqQuestion(BaseModel):
+    question: str
+    options: List[str]
+    type: str  # 'single' or 'multiple'
+
 class ChatResponse(BaseModel):
     response: str
     conversation_id: str
     message_id: str
     suggested_options: Optional[List[str]] = None
+    mcq_question: Optional[McqQuestion] = None
 
 class CareerProfile(BaseModel):
     model_config = ConfigDict(extra="ignore")
