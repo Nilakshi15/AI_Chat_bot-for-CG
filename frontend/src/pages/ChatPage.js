@@ -41,18 +41,20 @@ export default function ChatPage() {
     }]);
   }, [user]);
 
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const handleSend = async (messageText = null) => {
+    const textToSend = messageText || inputValue;
+    if (!textToSend.trim() || isLoading) return;
 
     const userMessage = {
       role: "user",
-      content: inputValue,
+      content: textToSend,
       timestamp: new Date().toISOString()
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
+    setShowQuickPrompts(false);
 
     try {
       const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
