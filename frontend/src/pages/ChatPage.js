@@ -120,6 +120,32 @@ export default function ChatPage() {
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto px-8 py-6">
         <div className="max-w-4xl mx-auto space-y-6">
+          {/* Quick Prompts - Show at start */}
+          {showQuickPrompts && messages.length <= 1 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6"
+            >
+              <p className="text-sm font-medium text-zinc-500 mb-3 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                Quick Start Questions
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {QUICK_PROMPTS.map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    data-testid={`quick-prompt-${idx}`}
+                    onClick={() => handleQuickPromptClick(prompt)}
+                    className="text-left px-4 py-3 bg-white border-2 border-indigo-100 hover:border-indigo-300 rounded-xl text-sm text-zinc-700 hover:text-indigo-700 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           <AnimatePresence>
             {messages.map((message, idx) => (
               <motion.div
@@ -131,15 +157,38 @@ export default function ChatPage() {
                   message.role === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                <div
-                  data-testid={`chat-message-${message.role}`}
-                  className={`max-w-[75%] px-6 py-4 rounded-2xl ${
-                    message.role === 'user'
-                      ? 'bg-indigo-600 text-white rounded-tr-sm chat-bubble-user'
-                      : 'bg-white border border-zinc-100 text-zinc-800 shadow-sm rounded-tl-sm chat-bubble-ai'
-                  }`}
-                >
-                  <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                <div className="max-w-[75%]">
+                  <div
+                    data-testid={`chat-message-${message.role}`}
+                    className={`px-6 py-4 rounded-2xl ${
+                      message.role === 'user'
+                        ? 'bg-indigo-600 text-white rounded-tr-sm chat-bubble-user'
+                        : 'bg-white border border-zinc-100 text-zinc-800 shadow-sm rounded-tl-sm chat-bubble-ai'
+                    }`}
+                  >
+                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                  </div>
+                  
+                  {/* Suggested Options after AI response */}
+                  {message.role === 'assistant' && message.options && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="mt-3 flex flex-wrap gap-2"
+                    >
+                      {message.options.map((option, optIdx) => (
+                        <button
+                          key={optIdx}
+                          data-testid={`option-btn-${optIdx}`}
+                          onClick={() => handleOptionClick(option)}
+                          className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm rounded-full font-medium transition-all duration-200 hover:-translate-y-0.5"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             ))}
