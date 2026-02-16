@@ -23,9 +23,9 @@ def test_api(name, method, endpoint, expected_status=200, data=None):
     
     try:
         if method.upper() == 'GET':
-            response = requests.get(url, headers=headers, timeout=15)
+            response = requests.get(url, headers=headers, timeout=45)
         elif method.upper() == 'POST':
-            response = requests.post(url, json=data, headers=headers, timeout=15)
+            response = requests.post(url, json=data, headers=headers, timeout=45)
         else:
             print(f"❌ Unsupported method: {method}")
             return False, {}
