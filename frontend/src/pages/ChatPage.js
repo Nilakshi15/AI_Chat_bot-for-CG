@@ -81,6 +81,13 @@ export default function ChatPage() {
         timestamp: new Date().toISOString()
       };
       
+      // Parse response for MCQ questions
+      if (data.mcq_question) {
+        aiMessage.mcq = data.mcq_question;
+        setPendingMcq(data.mcq_question);
+        setSelectedOptions([]);
+      }
+      
       // Parse response for suggested options
       if (data.suggested_options && data.suggested_options.length > 0) {
         aiMessage.options = data.suggested_options;
