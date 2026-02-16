@@ -101,6 +101,14 @@ export default function ChatPage() {
     }
   };
 
+  const handleQuickPromptClick = (prompt) => {
+    handleSend(prompt);
+  };
+
+  const handleOptionClick = (option) => {
+    handleSend(option);
+  };
+
   return (
     <div data-testid="chat-page" className="h-screen flex flex-col">
       {/* Header */}
