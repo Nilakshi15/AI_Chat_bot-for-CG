@@ -1,0 +1,158 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "E1 - The Anti-AI Designer",
+      "tone": "Gen-Z Professional",
+      "core_values": [
+        "Fusion over Imitation",
+        "Emotion First",
+        "Clarity through Softness",
+        "Playful Utility"
+      ]
+    },
+    "theme": {
+      "mode": "light",
+      "strategy": "Soft Pop & Clarity",
+      "description": "A bright, optimistic interface that combines the utility of Linear with the approachability of a wellness app. Avoids sterile corporate whites in favor of warm stones and soft indigo shadows."
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Outfit, sans-serif",
+        "body": "DM Sans, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scale": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tight",
+        "h2": "text-4xl md:text-5xl font-semibold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-medium",
+        "body": "text-base md:text-lg leading-relaxed",
+        "caption": "text-sm font-medium tracking-wide uppercase text-muted-foreground"
+      },
+      "imports": [
+        "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Outfit:wght@300;500;700;900&display=swap"
+      ]
+    },
+    "colors": {
+      "palette": {
+        "background": "#FAFAF9",
+        "foreground": "#18181B",
+        "primary": "#6366F1",
+        "primary_gradient": "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
+        "secondary": "#EC4899",
+        "accent": "#84CC16",
+        "surface": "#FFFFFF",
+        "surface_muted": "#F4F4F5",
+        "border": "#E4E4E7"
+      },
+      "usage": {
+        "background": "bg-[#FAFAF9]",
+        "card": "bg-white",
+        "primary_button": "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200",
+        "secondary_button": "bg-white text-indigo-900 border-2 border-indigo-100 hover:border-indigo-200",
+        "text_main": "text-zinc-900",
+        "text_muted": "text-zinc-500",
+        "success": "text-lime-600 bg-lime-50"
+      }
+    },
+    "layout": {
+      "grid_system": "The Bento Grid Protocol - Mode A for Dashboard",
+      "spacing": {
+        "container_padding": "p-6 md:p-12",
+        "section_gap": "gap-8 md:gap-12",
+        "element_gap": "gap-4"
+      },
+      "radius": {
+        "default": "rounded-2xl",
+        "card": "rounded-3xl",
+        "button": "rounded-full"
+      },
+      "shadows": {
+        "card": "shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+        "floating": "shadow-[0_20px_50px_rgb(99,102,241,0.15)]",
+        "inner": "shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]"
+      }
+    },
+    "components": {
+      "buttons": {
+        "style": "Pill-shaped, high padding (px-8 py-3)",
+        "animation": "transform hover:-translate-y-0.5 transition-all duration-200"
+      },
+      "cards": {
+        "style": "bg-white border-none shadow-card hover:shadow-floating transition-all duration-300",
+        "content_padding": "p-8"
+      },
+      "inputs": {
+        "style": "bg-zinc-50 border-zinc-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 rounded-xl h-12"
+      },
+      "chat_bubbles": {
+        "user": "bg-indigo-600 text-white rounded-2xl rounded-tr-sm",
+        "ai": "bg-white border border-zinc-100 text-zinc-800 shadow-sm rounded-2xl rounded-tl-sm",
+        "typing": "bg-zinc-100 text-zinc-400 rounded-2xl p-4"
+      }
+    },
+    "motion": {
+      "library": "framer-motion",
+      "defaults": {
+        "duration": 0.4,
+        "ease": "[0.25, 0.4, 0.25, 1.0]",
+        "stagger": 0.1
+      },
+      "page_transition": {
+        "initial": { "opacity": 0, "y": 20 },
+        "animate": { "opacity": 1, "y": 0 },
+        "exit": { "opacity": 0, "y": -20 }
+      }
+    },
+    "assets": {
+      "icons": {
+        "library": "lucide-react",
+        "style": "stroke-width={2} size={24}"
+      },
+      "images": {
+        "hero_bg": {
+          "url": "https://images.unsplash.com/photo-1758812099689-e7a4e569b325?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMHNvZnQlMjBncmFkaWVudCUyMHNoYXBlJTIwM2QlMjBiYWNrZ3JvdW5kJTIwbWluaW1hbGlzdHxlbnwwfHx8fDE3NzEyMjcwMzN8MA&ixlib=rb-4.1.0&q=85",
+          "alt": "Abstract Blue Organic Shape Background",
+          "usage": "Hero section background with overlay"
+        },
+        "hero_main": {
+          "url": "https://images.unsplash.com/photo-1573878410167-308f26bc1e33?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMHN0dWRlbnQlMjBjb25maWRlbnQlMjBsYXB0b3AlMjBicmlnaHQlMjBtb2Rlcm4lMjB3b3Jrc3BhY2V8ZW58MHx8fHwxNzcxMjI3MDMyfDA&ixlib=rb-4.1.0&q=85",
+          "alt": "Focused woman working on laptop",
+          "usage": "Main hero image, cutout or framed"
+        },
+        "feature_bg": {
+          "url": "https://images.unsplash.com/photo-1758812097288-ecafda0b9aa2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMHNvZnQlMjBncmFkaWVudCUyMHNoYXBlJTIwM2QlMjBiYWNrZ3JvdW5kJTIwbWluaW1hbGlzdHxlbnwwfHx8fDE3NzEyMjcwMzN8MA&ixlib=rb-4.1.0&q=85",
+          "alt": "Soft Abstract Gradient",
+          "usage": "Background for features or testimonials"
+        }
+      }
+    },
+    "instructions_to_main_agent": [
+      "1. SETUP: Install 'lucide-react', 'framer-motion', 'clsx', 'tailwind-merge', 'sonner'.",
+      "2. FONT: Add the Google Fonts import to index.css immediately.",
+      "3. UTILS: Create a 'cn' utility in /lib/utils.js for tailwind class merging.",
+      "4. COMPONENTS: Do not use complex Shadcn components if they are not pre-installed. Build simple, robust atomic components using the design tokens.",
+      "5. CHAT: Implement the chat interface as a 'Floating Island' or a distinct central panel. It must NOT look like a basic terminal. Use the 'chat_bubbles' styles defined above.",
+      "6. ROADMAP: Visualize the career path as a vertical timeline or a step-by-step card reveal. Do not use a plain list.",
+      "7. DATA-TESTID: Every interactive element (buttons, inputs, links) MUST have a 'data-testid' attribute (e.g., 'data-testid=\"chat-input\"').",
+      "8. EXTENSIONS: Use .js and .jsx extensions. Do not use .ts or .tsx.",
+      "9. NO-GO: Do not use dark gradients for this app. Keep it light, airy, and optimistic.",
+      "10. IMAGES: Use the provided Unsplash URLs for the landing page. For the dashboard, use Lucide icons."
+    ],
+    "universal_guidelines": [
+      "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+      "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+      "Create depth through layered design elements with z-index hierarchy",
+      "Use glass-morphism effects with backdrop filters (12-24px blur)",
+      "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+      "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+      "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+      "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡 for icons.",
+      "Every interaction needs micro-animations - hover states, transitions, parallax effects.",
+      "Use 2-3x more spacing than feels comfortable.",
+      "Prioritize using pre-existing components from src/components/ui when applicable",
+      "Components MUST use named exports (export const ComponentName = ...)",
+      "Pages MUST use default exports (export default function PageName() {...})",
+      "Use sonner for toasts"
+    ]
+  }
+}
