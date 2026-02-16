@@ -81,10 +81,64 @@ export default function RoadmapsPage() {
     );
   }
 
+  // Parse roadmap content into steps
+  const parseRoadmapSteps = (content) => {
+    if (!content) return [];
+    
+    // Try to extract structured steps from AI response
+    const steps = [];
+    const lines = content.split('\n');
+    let currentStep = null;
+    
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      // Look for numbered steps or headers
+      if (/^(Step\s+\d+|Phase\s+\d+|\d+\.|#\s*\d+)/i.test(trimmed)) {
+        if (currentStep) steps.push(currentStep);
+        currentStep = {
+          title: trimmed.replace(/^(Step\s+\d+|Phase\s+\d+|\d+\.|#\s*\d+)[:\s-]*/i, ''),
+          description: [],
+          duration: '',
+          skills: []
+        };
+      } else if (currentStep && trimmed) {
+        // Check for duration
+        if (/\d+\s*(week|month|day)/i.test(trimmed)) {
+          currentStep.duration = trimmed.match(/\d+\s*(week|month|day)/i)[0];
+        }
+        // Check for skills (bullet points or comma-separated)
+        if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*')) {
+          currentStep.skills.push(trimmed.replace(/^[•\-*]\s*/, ''));
+        } else {
+          currentStep.description.push(trimmed);
+        }
+      }
+    });
+    
+    if (currentStep) steps.push(currentStep);
+    
+    // If no structured steps found, create generic steps from paragraphs
+    if (steps.length === 0) {
+      const paragraphs = content.split('\n\n').filter(p => p.trim());
+      paragraphs.slice(0, 6).forEach((para, idx) => {
+        steps.push({
+          title: `Phase ${idx + 1}`,
+          description: [para.substring(0, 200) + '...'],
+          duration: '',
+          skills: []
+        });
+      });
+    }
+    
+    return steps;
+  };
+
   if (generatedRoadmap) {
+    const steps = parseRoadmapSteps(generatedRoadmap.content);
+    
     return (
       <div data-testid="roadmap-view" className="min-h-screen p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <button
             data-testid="back-to-roadmaps-btn"
             onClick={() => {
@@ -98,12 +152,13 @@ export default function RoadmapsPage() {
             Back to Roadmaps
           </button>
 
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+            className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8"
           >
-            <div className="flex items-start gap-4 mb-6">
+            <div className="flex items-start gap-4">
               <div className="p-3 bg-indigo-100 rounded-2xl">
                 <Map className="w-6 h-6 text-indigo-600" />
               </div>
@@ -111,14 +166,84 @@ export default function RoadmapsPage() {
                 <h1 className="text-3xl font-semibold text-zinc-900 mb-2">{generatedRoadmap.title}</h1>
                 <p className="text-zinc-500">Your personalized learning roadmap</p>
               </div>
-            </div>
-
-            <div className="prose prose-zinc max-w-none">
-              <div className="whitespace-pre-wrap text-zinc-700 leading-relaxed">
-                {generatedRoadmap.content}
+              <div className="text-right">
+                <p className="text-sm text-zinc-500">Total Phases</p>
+                <p className="text-2xl font-bold text-indigo-600">{steps.length}</p>
               </div>
             </div>
           </motion.div>
+
+          {/* Visual Timeline Roadmap */}
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200"></div>
+            
+            {/* Steps */}
+            <div className="space-y-6">
+              {steps.map((step, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="relative pl-20"
+                >
+                  {/* Step number indicator */}
+                  <div className="absolute left-0 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center border-4 border-indigo-100">
+                    <span className="text-2xl font-bold text-indigo-600">{idx + 1}</span>
+                  </div>
+                  
+                  {/* Step card */}
+                  <div className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgb(99,102,241,0.15)] transition-all duration-300">
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-zinc-900">{step.title}</h3>
+                      {step.duration && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-lime-50 text-lime-700 text-sm rounded-full font-medium">
+                          <Calendar className="w-4 h-4" />
+                          {step.duration}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {step.description.length > 0 && (
+                      <p className="text-zinc-600 mb-4 leading-relaxed">
+                        {step.description.join(' ')}
+                      </p>
+                    )}
+                    
+                    {step.skills.length > 0 && (
+                      <div>
+                        <p className="text-xs font-medium text-zinc-500 mb-2">KEY SKILLS</p>
+                        <div className="flex flex-wrap gap-2">
+                          {step.skills.slice(0, 5).map((skill, i) => (
+                            <span key={i} className="px-3 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-full">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Completion indicator */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: steps.length * 0.1 + 0.2 }}
+              className="relative pl-20 mt-6"
+            >
+              <div className="absolute left-0 w-16 h-16 bg-gradient-to-br from-lime-400 to-lime-600 rounded-2xl shadow-lg flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <div className="bg-gradient-to-br from-lime-50 to-indigo-50 rounded-3xl p-6 border-2 border-lime-200">
+                <h3 className="text-xl font-semibold text-zinc-900 mb-2">🎉 Career Ready!</h3>
+                <p className="text-zinc-600">Complete all phases to achieve your career goals</p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     );
