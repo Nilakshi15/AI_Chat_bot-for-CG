@@ -199,6 +199,55 @@ export default function ChatPage() {
                     }`}
                   >
                     <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                    
+                    {/* MCQ Question */}
+                    {message.role === 'assistant' && message.mcq && (
+                      <div className="mt-4 pt-4 border-t border-zinc-200">
+                        <p className="font-medium text-zinc-900 mb-3">{message.mcq.question}</p>
+                        <div className="space-y-2">
+                          {message.mcq.options.map((option, optIdx) => {
+                            const isSelected = selectedOptions.includes(option);
+                            return (
+                              <button
+                                key={optIdx}
+                                data-testid={`mcq-option-${optIdx}`}
+                                onClick={() => handleMcqOptionToggle(option)}
+                                disabled={!pendingMcq || pendingMcq.question !== message.mcq.question}
+                                className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 ${
+                                  isSelected
+                                    ? 'border-indigo-500 bg-indigo-50'
+                                    : 'border-zinc-200 hover:border-indigo-300 bg-white'
+                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                              >
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  isSelected ? 'border-indigo-500 bg-indigo-500' : 'border-zinc-300'
+                                }`}>
+                                  {isSelected && (
+                                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                                  )}
+                                </div>
+                                <span className={isSelected ? 'text-indigo-900 font-medium' : 'text-zinc-700'}>
+                                  {option}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {pendingMcq && pendingMcq.question === message.mcq.question && (
+                          <button
+                            data-testid="mcq-submit-btn"
+                            onClick={handleMcqSubmit}
+                            disabled={selectedOptions.length === 0}
+                            className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-zinc-300 text-white py-3 rounded-xl font-medium transition-all duration-200 disabled:cursor-not-allowed"
+                          >
+                            Submit {message.mcq.type === 'multiple' ? `(${selectedOptions.length} selected)` : ''}
+                          </button>
+                        )}
+                        <p className="text-xs text-zinc-400 mt-2">
+                          {message.mcq.type === 'multiple' ? '✓ Select one or more options' : '○ Select one option'}
+                        </p>
+                      </div>
+                    )}
                   </div>
                   
                   {/* Suggested Options after AI response */}
