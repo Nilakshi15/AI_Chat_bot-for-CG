@@ -589,19 +589,29 @@ async def generate_roadmap(
         chat = LlmChat(
             api_key=os.environ.get('EMERGENT_LLM_KEY'),
             session_id=f"roadmap_{user.user_id}_{uuid.uuid4().hex[:6]}",
-            system_message="You are a career development expert. Create detailed, actionable learning roadmaps."
+            system_message="""You are a career development expert. Create detailed, actionable learning roadmaps.
+            Format your response as clear steps with this structure:
+            
+            Step 1: [Title]
+            Duration: [X weeks/months]
+            Description of what to learn and do
+            • Key skill 1
+            • Key skill 2
+            • Key skill 3
+            
+            Use this format consistently for all steps. Keep descriptions concise (2-3 sentences max per step)."""
         ).with_model("openai", "gpt-5.2")
         
-        prompt = f"""Create a detailed learning roadmap for becoming a {career_title}.
+        prompt = f"""Create a detailed 6-step learning roadmap for becoming a {career_title}.
         User's current level: {experience_level}
         
-        Include:
-        1. Step-by-step learning path (6-8 steps)
-        2. Key skills to develop at each step
-        3. Recommended resources (courses, books, projects)
-        4. Estimated time for each step
+        For each step provide:
+        1. Clear step title
+        2. Duration estimate
+        3. Brief description (2-3 sentences)
+        4. 3-5 key skills to learn
         
-        Format as a structured response with clear sections."""
+        Make it actionable and motivating."""
         
         user_msg = UserMessage(text=prompt)
         ai_response = await chat.send_message(user_msg)
