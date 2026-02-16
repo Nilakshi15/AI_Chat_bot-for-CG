@@ -332,7 +332,8 @@ async def send_chat_message(
     return ChatResponse(
         response=ai_response,
         conversation_id=conversation_id,
-        message_id=ai_message_id
+        message_id=ai_message_id,
+        suggested_options=suggested_options
     )
 
 @api_router.get("/chat/history")
