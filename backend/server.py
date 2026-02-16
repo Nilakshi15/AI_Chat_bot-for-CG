@@ -273,15 +273,49 @@ async def send_chat_message(
             system_message="""You are an expert AI Career Mentor helping students discover careers, 
             build skills, and create personalized learning roadmaps. Be encouraging, insightful, 
             and provide actionable advice. When discussing careers, mention required skills, 
-            typical responsibilities, growth potential, and learning resources."""
+            typical responsibilities, growth potential, and learning resources.
+            
+            After providing your response, if relevant, suggest 2-3 follow-up questions or topics 
+            the user might want to explore. Format these as simple, clear options."""
         ).with_model("openai", "gpt-5.2")
         
         user_msg = UserMessage(text=chat_request.message)
         ai_response = await chat.send_message(user_msg)
         
+        # Extract suggested options from AI response if present
+        suggested_options = []
+        if len(history) <= 2:  # First few messages, provide contextual suggestions
+            # Analyze user's question and provide relevant options
+            message_lower = chat_request.message.lower()
+            if any(word in message_lower for word in ['career', 'job', 'profession', 'what should i']):
+                suggested_options = [
+                    "Tell me about tech careers",
+                    "Show creative career paths",
+                    "Explore business careers"
+                ]
+            elif any(word in message_lower for word in ['skill', 'learn', 'study']):
+                suggested_options = [
+                    "Create a learning roadmap",
+                    "What skills are in-demand?",
+                    "How long does it take?"
+                ]
+            elif any(word in message_lower for word in ['roadmap', 'path', 'steps']):
+                suggested_options = [
+                    "Generate a detailed roadmap",
+                    "Show me example projects",
+                    "Recommend learning resources"
+                ]
+            else:
+                suggested_options = [
+                    "Explore career options",
+                    "Build a skills roadmap",
+                    "Ask about specific careers"
+                ]
+        
     except Exception as e:
         logger.error(f"AI chat error: {e}")
         ai_response = "I'm having trouble connecting right now. Please try again in a moment."
+        suggested_options = []
     
     # Store AI response
     ai_message_id = f"msg_{uuid.uuid4().hex[:12]}"
