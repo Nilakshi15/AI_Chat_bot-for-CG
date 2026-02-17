@@ -9,7 +9,7 @@ body {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #FAFAF9;
+    background: #EFECE3;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -22,16 +22,16 @@ code {
 
 @layer base {
     :root {
-        --background: 250 250 249;
-        --foreground: 24 24 27;
+        --background: 239 236 227;
+        --foreground: 0 0 0;
         --card: 255 255 255;
-        --card-foreground: 24 24 27;
-        --primary: 99 102 241;
+        --card-foreground: 0 0 0;
+        --primary: 74 112 169;
         --primary-foreground: 255 255 255;
-        --secondary: 236 72 153;
-        --accent: 132 204 22;
-        --muted: 244 244 245;
-        --border: 228 228 231;
+        --secondary: 143 171 212;
+        --accent: 74 112 169;
+        --muted: 239 236 227;
+        --border: 143 171 212;
         --radius: 1rem;
     }
 }
@@ -41,7 +41,8 @@ code {
         @apply border-border;
     }
     body {
-        @apply bg-[#FAFAF9] text-zinc-900;
+        background-color: #EFECE3;
+        color: #000000;
     }
 }
 
