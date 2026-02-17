@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "./context/ThemeContext";
 import "@/App.css";
 
 import Landing from "./pages/Landing";
@@ -41,12 +42,14 @@ function AppRouter() {
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AppRouter />
-        <Toaster position="top-right" richColors />
-      </BrowserRouter>
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <BrowserRouter>
+          <AppRouter />
+          <Toaster position="top-right" richColors />
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 
