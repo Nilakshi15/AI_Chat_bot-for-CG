@@ -71,7 +71,7 @@ export default function DashboardLayout({ user }) {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-zinc-200">
+        <div className="p-4 border-t" style={{borderColor: '#8FABD4'}}>
           <div className="flex items-center gap-3 mb-4 px-2">
             <img
               src={user?.picture || 'https://via.placeholder.com/40'}
@@ -79,15 +79,16 @@ export default function DashboardLayout({ user }) {
               className="w-10 h-10 rounded-full"
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-zinc-900 truncate">{user?.name}</p>
-              <p className="text-xs text-zinc-500 truncate">{user?.email}</p>
+              <p className="text-sm font-medium truncate" style={{color: '#000000'}}>{user?.name}</p>
+              <p className="text-xs truncate" style={{color: '#000000', opacity: 0.6}}>{user?.email}</p>
             </div>
           </div>
           <button
             data-testid="logout-btn"
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-zinc-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 font-medium"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium hover:opacity-70 transition-all duration-200"
+            style={{color: '#000000', backgroundColor: '#8FABD4'}}
           >
             <LogOut className="w-4 h-4" />
             <span>{isLoggingOut ? 'Logging out...' : 'Logout'}</span>
@@ -96,7 +97,7 @@ export default function DashboardLayout({ user }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto" style={{backgroundColor: '#EFECE3'}}>
         <Outlet context={{ user }} />
       </main>
     </div>
