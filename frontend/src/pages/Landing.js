@@ -135,27 +135,20 @@ export default function Landing() {
             </div>
 
             <h1 className="text-6xl md:text-7xl font-black tracking-tight mb-8 leading-tight">
-              <span className="text-white">Get ready for the</span>
-              <br />
-              <span className="text-gradient">new era of AI</span>
+              <span className="text-white">AI Career Mentor</span>
             </h1>
 
             <p className="text-xl text-gray-400 mb-10 max-w-lg leading-relaxed">
-              Get personalized career guidance, interactive skill roadmaps, and AI-powered recommendations to discover your perfect career path
+              Ask me anything about careers, skills, and learning paths
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <input
-                type="email"
-                placeholder="Enter email"
-                className="input-glow bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.12)] rounded-xl px-6 py-4 text-white placeholder:text-gray-500 outline-none"
-              />
               <button
                 data-testid="get-started-btn"
                 onClick={handleGetStarted}
-                className="btn-gradient px-8 py-4 rounded-xl text-white font-bold whitespace-nowrap"
+                className="btn-gradient px-10 py-4 rounded-xl text-white font-bold"
               >
-                Get Started
+                Get Started Free
               </button>
             </div>
 
