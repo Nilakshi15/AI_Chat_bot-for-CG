@@ -57,9 +57,13 @@ export default function DashboardLayout({ user }) {
               data-testid={`nav-${item.label.toLowerCase()}`}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-2 font-medium transition-all duration-200 ${
                 isActive(item.path, item.exact)
-                  ? 'bg-indigo-50 text-indigo-600'
-                  : 'text-zinc-600 hover:bg-zinc-50'
+                  ? 'text-white'
+                  : 'hover:opacity-70'
               }`}
+              style={{
+                backgroundColor: isActive(item.path, item.exact) ? '#4A70A9' : 'transparent',
+                color: isActive(item.path, item.exact) ? '#FFFFFF' : '#000000'
+              }}
             >
               {item.icon}
               <span>{item.label}</span>
