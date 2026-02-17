@@ -41,11 +41,11 @@ export default function DashboardLayout({ user }) {
   return (
     <div className="min-h-screen bg-[#FAFAF9] flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-zinc-200 flex flex-col">
-        <div className="p-6 border-b border-zinc-200">
-          <div className="flex items-center gap-2 text-indigo-600 font-bold text-xl">
+      <aside className="w-64 border-r flex flex-col" style={{backgroundColor: '#EFECE3', borderColor: '#8FABD4'}}>
+        <div className="p-6 border-b" style={{borderColor: '#8FABD4'}}>
+          <div className="flex items-center gap-2 font-bold text-xl" style={{color: '#4A70A9'}}>
             <Sparkles className="w-6 h-6" />
-            <span>CareerMentor</span>
+            <span>AI Career Guidance</span>
           </div>
         </div>
 
